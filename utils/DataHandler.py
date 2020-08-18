@@ -22,11 +22,11 @@ class Augment:
         return img
 
     def crop(self, img):
-        dw = img.shape[0] - W
         dh = img.shape[1] - H
-        x = int(self.rng.rand()*dw)
+        dw = img.shape[0] - W
         y = int(self.rng.rand()*dh)
-        return img[x:x+W, y:y+H, :]
+        x = int(self.rng.rand()*dw)
+        return img[y:y+H, x:x+W, :]
 
     def rotate(self, img):
         if self.rng.rand() < 0.3:

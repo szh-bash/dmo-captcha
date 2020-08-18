@@ -44,17 +44,17 @@ if __name__ == '__main__':
     net = Vgg16()
     device = torch.device("cuda:0")
     if torch.cuda.device_count() > 1:
-        devices_ids = [0, 1]
+        devices_ids = [0, 1, 2]
         net = nn.DataParallel(net, device_ids=devices_ids)
         print("Let's use %d/%d GPUs!" % (len(devices_ids), torch.cuda.device_count()))
     net.to(device)
     data_loader = DataLoader(dataset=data, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True)
-    arcFace = ArcFace(256, data.type).to(device)
+    arcFace = ArcFace(4096, data.type).to(device)
     criterion = nn.CrossEntropyLoss().to(device)
     optimizer = optim.Adam([{'params': net.parameters()},
                             {'params': arcFace.parameters()}],
                            lr=learning_rate, weight_decay=weight_decay)
-    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[5000], gamma=0.1, last_epoch=-1)
+    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[3500, 10000], gamma=0.1, last_epoch=-1)
     print(net.parameters())
     print(arcFace.parameters())
     if os.path.exists(modelSavePath+'.tar'):

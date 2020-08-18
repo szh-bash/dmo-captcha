@@ -9,24 +9,9 @@ from get_feat import store
 
 dist = []
 ground_truth = []
-# widgets = ['Testing: ', pb.Percentage(),
-#            ' ', pb.Bar(marker='>', left='[', right=']', fill='='),
-#            ' ', pb.Timer(),
-#            ' ', pb.ETA(),
-#            ' ', pb.FileTransferSpeed()]
 
 
 def get_distance(path0, path1):
-    # feat0, feat1 = [], []
-    # file = open(path0)
-    # for val in file:
-    #     feat0.append(float(val))
-    # file.close()
-    # file = open(path1)
-    # for val in file:
-    #     feat1.append(float(val))
-    # file.close()
-    # feat0, feat1 = np.array(feat0), np.array(feat1)
     feat0, feat1 = store[path0], store[path1]
     # return np.argmax(feat0) == np.argmax(feat1)
     # return -np.linalg.norm(feat0-feat1)

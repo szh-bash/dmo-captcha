@@ -38,7 +38,7 @@ class Vgg16(nn.Module):
         # self.drop_out1 = nn.Dropout(p=p)
         self.fc2 = nn.Linear(4096, 4096)
         # self.drop_out2 = nn.Dropout(p=p)
-        self.fc3 = nn.Linear(4096, 256)
+        # self.fc3 = nn.Linear(4096, 256)
 
     def forward(self, x):
         # x.size(0)即为batch_size
@@ -90,8 +90,8 @@ class Vgg16(nn.Module):
         out = self.fc2(out)
         out = F.relu(out)
         # out = self.drop_out2(out)
-        out = self.fc3(out)
-        out = F.relu(out)
+        # out = self.fc3(out)
+        # out = F.relu(out)
 
         # out = F.log_softmax(out, dim=1)
         # out = F.softmax(out, dim=1)

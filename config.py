@@ -6,11 +6,11 @@ captcha_origin_path = '/data/shenzhonghai/code'
 captchaPath = '/dev/shm/dmo-captcha'
 
 # train
-Total = 300
-batch_size = 64
+Total = 600
+batch_size = 128
 learning_rate = 0.001
 weight_decay = 0.00000
-modelSavePath = '/data/shenzhonghai/dmo-captcha/models/demo_5k'
+modelSavePath = '/data/shenzhonghai/dmo-captcha/models/demo_3k10k'
 # test
 modelPath = '/data/shenzhonghai/dmo-captcha/models/demo.tar'
 testPath = '/dev/shm/dmo-captcha'

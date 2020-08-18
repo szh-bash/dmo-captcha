@@ -12,7 +12,7 @@ from model.vggnet.vgg16 import Vgg16
 from utils.misc import write_feat, write_meta
 from torch.utils.data import DataLoader
 
-from config import modelPath
+from config import modelPath, widgets
 
 
 # check = torch.load(modelPath)
@@ -47,10 +47,7 @@ data = DataReader('test', 'mtLfw')
 data_loader = DataLoader(dataset=data, batch_size=batch_size, shuffle=False, pin_memory=True)
 
 # load model
-# model_path = '/data/shenzhonghai/FaceClustering/models/Vgg16_bs-128_lr-4|16k|19k_ep200.pt'
-# model_path = '/data/shenzhonghai/FaceClustering/models/Vgg16_af_128_3|20k_ep210.pt'
 # model_path = '/data/shenzhonghai/FaceClustering/models/Vgg16_lfw_af-1_256_2_ep100.pt'
-# model_path = '/data/shenzhonghai/FaceClustering/models/Vgg16_wf_af-1_256_lr1e3_2|60k_ep35.pt'
 device = torch.device('cuda:0')
 model = Vgg16().cuda()
 print(model)
@@ -62,11 +59,6 @@ model.eval()  # DropOut/BN
 print('Calculating Feature Map...')
 ids = 0
 Total = (data.len - 1) / batch_size + 1
-widgets = [' ', pb.Percentage(),
-           ' ', pb.Bar(marker='>', left='[', right=']', fill='='),
-           ' ', pb.Timer(),
-           ' ', pb.ETA(),
-           ' ', pb.FileTransferSpeed()]
 pgb = pb.ProgressBar(widgets=widgets, maxval=Total).start()
 for i, (inputs, labels, names) in enumerate(data_loader):
     feat = model(inputs.to(device))

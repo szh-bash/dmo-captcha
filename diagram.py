@@ -17,22 +17,7 @@ def smooth(seq):
     return res
 
 
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_bs-128_lr-4|16k|19k.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_af_128_3.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_af_128_3|20k.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_lfw_sm_128_3.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_wf_sm_128_2.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_lfw_af-1_256_2.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_lfw_af-2_flip_256_2.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_wf_af-1_256_2.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_wf_af-1_256_lr2e3_2|40k.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_wf_af-1_256_lr1e3_2|60k.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_wf_af05_64_128_lr1e3_2|60k.log'
-log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_nVgg16_base_aug_DP05_2|90k.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_224_mtwfc_base_flip_2|200k.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16-T_base_2|200k.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_256D_wf_af-5e-2.log'
-# log_path = '/data/shenzhonghai/FaceClustering/logs/train_log_Vgg16_+256_af-5e-2.log'
+log_path = '/data/shenzhonghai/dmo-captcha/logs/demo_5k.log'
 acc = []
 loss = []
 with open(log_path, 'r') as f:

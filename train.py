@@ -36,25 +36,25 @@ def get_max_gradient(g):
 
 if __name__ == '__main__':
     # set config
-    data = DataReader('train', 'mtWebFace')
-    slides = (data.len - 1) // batch_size + 1
+    data = DataReader('train')
+    slides = (data.sample - 1) // batch_size + 1
     grads = {}
 
     # Some Args setting
     net = Vgg16()
     device = torch.device("cuda:0")
     if torch.cuda.device_count() > 1:
-        devices_ids = [0, 1, 2, 3]
+        devices_ids = [0, 1]
         net = nn.DataParallel(net, device_ids=devices_ids)
         print("Let's use %d/%d GPUs!" % (len(devices_ids), torch.cuda.device_count()))
     net.to(device)
-    data_loader = DataLoader(dataset=data, batch_size=batch_size, shuffle=True, num_workers=4, pin_memory=True)
-    arcFace = ArcFace(256, data.person).to(device)
+    data_loader = DataLoader(dataset=data, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True)
+    arcFace = ArcFace(256, data.type).to(device)
     criterion = nn.CrossEntropyLoss().to(device)
     optimizer = optim.Adam([{'params': net.parameters()},
                             {'params': arcFace.parameters()}],
                            lr=learning_rate, weight_decay=weight_decay)
-    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[200], gamma=0.1, last_epoch=-1)
+    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[5000], gamma=0.1, last_epoch=-1)
     print(net.parameters())
     print(arcFace.parameters())
     if os.path.exists(modelSavePath+'.tar'):
@@ -67,8 +67,8 @@ if __name__ == '__main__':
         iter_start = checkpoint['iter']
         print('Load checkpoint Successfully!')
         print('epoch: %d\niter: %d' % (epoch_start, iter_start))
-        scheduler.state_dict()['milestones'][164000] = 1
-        print(scheduler.state_dict())
+        # scheduler.state_dict()['milestones'][164000] = 1
+        # print(scheduler.state_dict())
     else:
         epoch_start = 0
         iter_start = 0
@@ -118,7 +118,7 @@ if __name__ == '__main__':
             #     print('Abs Max Gradient of net_output:',
             #           get_max_gradient(grads['feat_grad'].gather(1, train_y.view(-1, 1))))
 
-            if iterations % 5000 == 0:
+            if iterations % 1000 == 0:
                 torch.save(net.state_dict(), modelSavePath+'_'+str(iterations)+'.pt')
                 print('Model saved to '+modelSavePath+'_'+str(iterations)+'.pt')
             # if iterations % 1 == 0:

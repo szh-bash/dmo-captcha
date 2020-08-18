@@ -15,7 +15,7 @@ for i in range(132):
     if re.match(r'[\da-z%@#]', chr(i)):
         count += 1
         num[i] = count
-print("class: ", count)
+print("Defualt Class:", count)
 
 
 def build(filename):
@@ -33,18 +33,20 @@ def build(filename):
         cnt[num[ord(label)]] += 1
 
 
-res = 0
-count = 0
-if not os.path.exists(captchaPath):
-    os.mkdir(captchaPath)
-print(captchaPath)
-path_dir = os.listdir(captcha_origin_path)
-pgb = pb.ProgressBar(widgets=widgets, maxval=687).start()
-for allDir in path_dir:
-    build(allDir)
-    res += 6
-    count += 1
-    pgb.update(count)
-pgb.finish()
-print('origin:', count)
-print('result:', res)
+if __name__ == '__main__':
+    res = 0
+    count = 0
+    if not os.path.exists(captchaPath):
+        os.mkdir(captchaPath)
+    print(captchaPath)
+    path_dir = os.listdir(captcha_origin_path)
+    pgb = pb.ProgressBar(widgets=widgets, maxval=687).start()
+    for allDir in path_dir:
+        build(allDir)
+        res += 6
+        count += 1
+        pgb.update(count)
+    pgb.finish()
+    print('origin:', count)
+    print('result:', res)
+    print(np.sort(cnt[1:39]))

@@ -4,7 +4,7 @@ import torch
 import numpy as np
 from torch.utils.data import Dataset
 import progressbar as pb
-from utils.DataHandler import Augment
+from utils.DataHandler import Augment, MaxS, MinS
 from config import captchaPath, widgets
 # lfw: 5749, 13233
 # webface: 10575, 494414
@@ -46,9 +46,7 @@ class DataReader(Dataset):
         if self.st == 'train':
             self.dataset = np.array(self.dataset, dtype=float)
         elif self.st == 'test':
-            self.dataset = np.transpose(np.array(self.dataset, dtype=float), [0, 3, 1, 2])
-            self.x = (torch.from_numpy(self.dataset).float() - 127.5) / 128.0
-            print(self.x.type())
+            self.dataset = np.array(self.dataset, dtype=float)
         self.label = np.array(self.label)
         print('Types:', self.type)
         print('Label:', self.label.shape)
@@ -63,8 +61,15 @@ class DataReader(Dataset):
             image = torch.from_numpy(image).float()
             return image, label
         elif self.st == 'test':
-            size = (250-224) // 2
-            return self.x[index, :, size:size + 224, size:size + 224], self.y[index]
+            # size = (MaxS+MinS) // 2
+            size = 256
+            idx = (size-224) // 2
+            img = self.dataset[index]
+            img = cv2.resize(img, (size, size))
+            img = img[idx:idx+224, idx:idx+224, :]
+            img = np.transpose(img, [2, 0, 1])
+            img = torch.from_numpy((img-127.5)/128).float()
+            return img, self.y[index]
         else:
             exit(-1)
 

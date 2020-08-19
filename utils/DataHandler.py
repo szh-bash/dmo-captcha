@@ -6,8 +6,8 @@ import torchvision.transforms as trans
 
 H = 224
 W = 224
-MinS = 256
-MaxS = 384
+MinS = 224
+MaxS = 256
 
 
 class Augment:
@@ -15,7 +15,7 @@ class Augment:
 
     def resize(self, img):
         new_size = self.rng.randint(MinS, MaxS+1)
-        new_size = 256
+        # new_size = 256
         new_size = (new_size, new_size)
         img = cv2.resize(img, new_size)
         return img

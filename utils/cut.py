@@ -15,7 +15,7 @@ for i in range(132):
     if re.match(r'[\da-z%@#]', chr(i)):
         count += 1
         num[i] = count
-print("Defualt Class:", count)
+print("Default Class:", count)
 
 
 def build(filename):

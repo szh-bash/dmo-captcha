@@ -7,16 +7,15 @@ import torchvision.transforms as trans
 H = 224
 W = 224
 MinS = 256
-MaxS = 512
+MaxS = 384
 
 
 class Augment:
     rng = np.random
 
-    # @staticmethod
     def resize(self, img):
         new_size = self.rng.randint(MinS, MaxS+1)
-        # new_size = 384
+        new_size = 256
         new_size = (new_size, new_size)
         img = cv2.resize(img, new_size)
         return img
@@ -36,13 +35,12 @@ class Augment:
     def flip(self, img):
         if self.rng.rand() < 0.5:
             img = img[:, ::-1, :]
-            # img = torch.flip(img, (2,))
         return img
 
     def run(self, img, label):
         img = self.resize(img)
         # img = self.rotate(img)
-        img = self.flip(img)
+        # img = self.flip(img)
         img = self.crop(img)
         img = np.transpose(img, [2, 0, 1])
         img = (img - 127.5) / 128.0

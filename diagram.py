@@ -17,7 +17,7 @@ def smooth(seq):
     return res
 
 
-log_path = '/data/shenzhonghai/dmo-captcha/logs/vgg16_224_256.log'
+log_path = '/data/shenzhonghai/dmo-captcha/logs/vgg16_224_256_sort.log'
 acc = []
 loss = []
 with open(log_path, 'r') as f:
@@ -39,8 +39,8 @@ ax2 = ax1.twinx()
 ax1.plot(x, loss, label='loss', color='r')
 ax2.plot(x, acc, label='train_acc', color='b')
 ax1.set_xlim(0, iterations)
-ax1.set_ylim(0., np.max(loss))
-ax2.set_ylim(0., 100.)
+ax1.set_ylim(0., 0.3)
+ax2.set_ylim(90., 100.)
 ax1.set_ylabel('loss')
 ax2.set_ylabel('train_acc')
 plt.xlabel('iterations')

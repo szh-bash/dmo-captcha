@@ -30,7 +30,7 @@ class ArcMarginProduct(nn.Module):
         self.th = math.cos(math.pi - m)
         self.mm = math.sin(math.pi - m) * m
 
-    def forward(self, inputs, label):
+    def forward(self, inputs, label, mode='train'):
         # --------------------------- cos(theta) & phi(theta) ---------------------------
         cosine = F.linear(F.normalize(inputs), F.normalize(self.weight))
         sine = torch.sqrt(- torch.pow(cosine, 2) + 1.0)
@@ -42,7 +42,8 @@ class ArcMarginProduct(nn.Module):
         # --------------------------- convert label to one-hot ---------------------------
         # one_hot = torch.zeros(cosine.size(), requires_grad=True, device='cuda')
         one_hot = torch.zeros(cosine.size(), device='cuda:0')
-        one_hot.scatter_(1, label.view(-1, 1).long(), 1)
+        if mode == 'train':
+            one_hot.scatter_(1, label.view(-1, 1).long(), 1)
         # -------------torch.where(out_i = {x_i if condition_i else y_i) -------------
         output = (one_hot * phi) + (- one_hot + 1.0) * cosine  # torch.__version__ == 0.4
         output *= self.s

@@ -52,7 +52,7 @@ ids = 0
 Total = (data.sample - 1) / batch_size + 1
 pgb = pb.ProgressBar(widgets=widgets, maxval=Total).start()
 for i, (inputs, labels) in enumerate(data_loader):
-    feat = arc(model(inputs.to(device)), labels.to(device))
+    feat = arc(model(inputs.to(device)), labels.to(device), 'test')
     save_feat(feat, labels, labels.size(0))
     pgb.update(i)
 pgb.finish()

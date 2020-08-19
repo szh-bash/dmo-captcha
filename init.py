@@ -5,7 +5,8 @@ import numpy as np
 from torch.utils.data import Dataset
 import progressbar as pb
 from utils.DataHandler import Augment, MaxS, MinS
-from config import captchaPath, widgets
+from config import captchaPath, widgets, testPath
+from utils.cut import num
 # lfw: 5749, 13233
 # webface: 10575, 494414
 # clean-webface: 10575, 455594
@@ -25,11 +26,17 @@ class DataReader(Dataset):
 
     def __init__(self, st):
         self.st = st
-        path_dir = os.listdir(captchaPath)
-        print('Data Path:', captchaPath)
-        pgb = pb.ProgressBar(widgets=widgets, maxval=4122).start()
+        if self.st == 'train':
+            file_path = captchaPath
+            total = 4122
+        else:
+            file_path = testPath
+            total = 8598
+        path_dir = os.listdir(file_path)
+        print('Data Path:', file_path)
+        pgb = pb.ProgressBar(widgets=widgets, maxval=total).start()
         for allDir in path_dir:
-            child = os.path.join('%s/%s' % (captchaPath, allDir))
+            child = os.path.join('%s/%s' % (file_path, allDir))
             child_dir = os.listdir(child)
             for allSon in child_dir:
                 son = os.path.join('%s/%s' % (child, allSon))
@@ -37,7 +44,7 @@ class DataReader(Dataset):
                     self.dataset.append(cv2.imread(son))
                 elif self.st == 'test':
                     self.dataset.append(cv2.imread(son))
-                self.label.append(self.type)
+                self.label.append(num[ord(allDir)])
                 pgb.update(self.sample)
                 self.sample += 1
             self.type += 1
@@ -61,8 +68,8 @@ class DataReader(Dataset):
             image = torch.from_numpy(image).float()
             return image, label
         elif self.st == 'test':
-            # size = (MaxS+MinS) // 2
-            size = 256
+            size = (MaxS+MinS) // 2
+            # size = 256
             idx = (size-224) // 2
             img = self.dataset[index]
             img = cv2.resize(img, (size, size))

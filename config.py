@@ -12,11 +12,9 @@ Total = 100
 batch_size = 64
 learning_rate = 0.001
 weight_decay = 0.00000
-modelSavePath = '/data/shenzhonghai/dmo-captcha/models/vgg16_224_256'
+modelSavePath = '/data/shenzhonghai/dmo-captcha/models/vgg16_224_256_sort'
 # test
-modelPath = '/data/shenzhonghai/dmo-captcha/models/vgg16_224_256.tar'
-testPath = '/dev/shm/dmo-captcha'
-# featPath = '/data/shenzhonghai/lfw/mtLfw-base-feat-fc2-35000/'
+modelPath = '/data/shenzhonghai/dmo-captcha/models/vgg16_224_256_sort.tar'
 dp = 0.00
 
 widgets = ['Data Loading: ', pb.Percentage(),

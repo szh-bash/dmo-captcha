@@ -69,7 +69,7 @@ class DataReader(Dataset):
             return image, label
         elif self.st == 'test':
             size = (MaxS+MinS) // 2
-            # size = 256
+            # size = 224
             idx = (size-224) // 2
             img = self.dataset[index]
             img = cv2.resize(img, (size, size))

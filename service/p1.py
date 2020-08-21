@@ -3,7 +3,7 @@
 import time
 import socket
 # import multiprocessing
-from service.recognize import predict
+from service.recognize_vgg16 import predict
 
 
 def link_handler(link, client):
@@ -14,12 +14,12 @@ def link_handler(link, client):
     :return: None
     """
     print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) +
-          ("超级护盾已开始守护驯兽师[%s:%s]...." % (client[0], client[1])))
+          ("超级护盾已接收来自驯兽师[%s:%s]庇护请求...." % (client[0], client[1])))
     while True:
         filepath = link.recv(1024).decode()
         print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), end='')
         if filepath == 'exit':
-            print("超级护盾成功帮助驯兽师[%s:%s]击退邪恶数码兽...." % (client[0], client[1]))
+            print("超级护盾已成功帮助驯兽师[%s:%s]击退邪恶数码兽...." % (client[0], client[1]))
             break
         print("超级护盾正在帮助驯兽师[%s:%s]抵御邪恶数码兽...." % (client[0], client[1]))
         captcha = predict(filepath)

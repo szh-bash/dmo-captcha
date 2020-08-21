@@ -2,12 +2,11 @@ import cv2
 import numpy as np
 # import torch
 import torchvision.transforms as trans
+from config import H, W
 
 
-H = 224
-W = 224
-MinS = 224
-MaxS = 256
+MinS = 112
+MaxS = 128
 
 
 class Augment:

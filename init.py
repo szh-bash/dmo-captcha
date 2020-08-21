@@ -5,7 +5,7 @@ import numpy as np
 from torch.utils.data import Dataset
 import progressbar as pb
 from utils.DataHandler import Augment, MaxS, MinS
-from config import captchaPath, widgets, testPath
+from config import trainPath, widgets, testPath, train_size, test_size, H, W
 from utils.cut import num
 # lfw: 5749, 13233
 # webface: 10575, 494414
@@ -27,11 +27,11 @@ class DataReader(Dataset):
     def __init__(self, st):
         self.st = st
         if self.st == 'train':
-            file_path = captchaPath
-            total = 4122
+            file_path = trainPath
+            total = train_size
         else:
             file_path = testPath
-            total = 8598
+            total = test_size
         path_dir = os.listdir(file_path)
         print('Data Path:', file_path)
         pgb = pb.ProgressBar(widgets=widgets, maxval=total).start()
@@ -69,11 +69,11 @@ class DataReader(Dataset):
             return image, label
         elif self.st == 'test':
             size = (MaxS+MinS) // 2
-            # size = 224
-            idx = (size-224) // 2
+            # size = W
+            idx = (size-W) // 2
             img = self.dataset[index]
             img = cv2.resize(img, (size, size))
-            img = img[idx:idx+224, idx:idx+224, :]
+            img = img[idx:idx+H, idx:idx+W, :]
             img = np.transpose(img, [2, 0, 1])
             img = torch.from_numpy((img-127.5)/128).float()
             return img, self.y[index]

@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 import progressbar as pb
-from config import captcha_origin_path, captchaPath, test_origin_path, testPath, widgets, modelPath
+from config import captcha_origin_path, trainPath, test_origin_path, testPath, widgets, modelPath
 import re
 import torch
 from model.vggnet.vgg16 import Vgg16
@@ -32,7 +32,7 @@ def build(filename):
         if label.isupper():
             label = label.lower()
         img_single = img[:, index[idx]:index[idx] + W, :]
-        dir_path = os.path.join("%s/%s" % (captchaPath, label))
+        dir_path = os.path.join("%s/%s" % (trainPath, label))
         if not os.path.exists(dir_path):
             os.mkdir(dir_path)
         cv2.imwrite(os.path.join("%s/%d.jpg" % (dir_path, cnt[num[ord(label)]])), img_single)
@@ -42,9 +42,9 @@ def build(filename):
 def cut():
     res = 0
     count = 0
-    if not os.path.exists(captchaPath):
-        os.mkdir(captchaPath)
-    print(captchaPath)
+    if not os.path.exists(trainPath):
+        os.mkdir(trainPath)
+    print(trainPath)
     path_dir = os.listdir(captcha_origin_path)
     pgb = pb.ProgressBar(widgets=widgets, maxval=687).start()
     for allDir in path_dir:

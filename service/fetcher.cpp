@@ -1,7 +1,7 @@
 #include <cstdio>  
 #include <Winsock2.h>  
-#pragma comment(lib,"ws2_32.lib")
-#pragma warning(disable:4996)
+//#pragma comment(lib,"ws2_32.lib")
+//#pragma warning(disable:4996)
 #include <iostream>
  
 int fetch_code()
@@ -31,6 +31,7 @@ int fetch_code()
 	connect(sockClient, (SOCKADDR*)&addrSrv, sizeof(SOCKADDR));
 	
 	char baseCh[100];
+	printf("Please input captcha path: ");
 	scanf("%s", baseCh);
 	send(sockClient, baseCh, strlen(baseCh), 0);
 	char recvBuf[500];

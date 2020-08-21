@@ -7,7 +7,6 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.nn import Parameter
 import numpy as np
-sys.path.append("..")
 
 modelPath = 'C:/DATA/vgg16_32_48.tar'
 
@@ -123,12 +122,10 @@ class ArcMarginProduct(nn.Module):
         return cosine
 
 
-def predict():
+def predict(filepath):
     # filePath = 'D:/DigimonMasters/Code_AI/test-origin/720857789003916874.jpg'
     res = ''
-    print('Loading Time: %.5fs' % (time.time()-load))
-    run = time.time()
-    img = np.array(cv2.imread(input()), dtype=float)
+    img = np.array(cv2.imread(filepath), dtype=float)
 
     for idx in range(6):
         image = img[:, index[idx]:index[idx] + W, :]
@@ -140,17 +137,16 @@ def predict():
         lb = torch.argmax(feat, dim=1).numpy()[0]
         res += chr(trans[lb])
 
-    print('Running Time: %.5fs' % (time.time()-run))
-    return res
+    return res.upper()
+
+
+net = Vgg16().cpu()
+net.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['net'].items()})
+net.eval()
+arc = ArcMarginProduct(4096, classes).cpu()
+arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['arc'].items()})
 
 
 if __name__ == '__main__':
-    load = time.time()
-    net = Vgg16().cpu()
-    net.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath)['net'].items()})
-    net.eval()
-    arc = ArcMarginProduct(4096, classes).cpu()
-    arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath)['arc'].items()})
-    arc.cpu()
-    label = predict()
-    print(label.upper())
+    path = 'D:/DigimonMasters/Code_AI/test-origin/720857789003916874.jpg'
+    print(predict(path))

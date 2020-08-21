@@ -14,7 +14,7 @@ learning_rate = 0.001
 weight_decay = 0.00000
 modelSavePath = '/data/shenzhonghai/dmo-captcha/models/vgg16_32_48'
 # test
-modelPath = '/data/shenzhonghai/dmo-captcha/models/vgg16_32_48_5000.pt'
+modelPath = '/data/shenzhonghai/dmo-captcha/models/vgg16_32_48.tar'
 dp = 0.00
 
 widgets = ['Data Loading: ', pb.Percentage(),

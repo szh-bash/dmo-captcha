@@ -18,9 +18,9 @@ Total = 100
 batch_size = 128
 learning_rate = 0.001
 weight_decay = 0.00000
-modelSavePath = '/data/shenzhonghai/dmo-captcha/models/resnet_36_56_m30_clean2'
+modelSavePath = '/data/shenzhonghai/dmo-captcha/models/resnet_36_56_m30_clean4'
 # test
-modelPath = '/data/shenzhonghai/dmo-captcha/models/resnet_36_56_m30_clean2.tar'
+modelPath = '/data/shenzhonghai/dmo-captcha/models/resnet_36_56_m30_clean4.tar'
 dp = 0.00
 
 widgets = ['Data Loading: ', pb.Percentage(),

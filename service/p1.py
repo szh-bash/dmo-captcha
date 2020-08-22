@@ -3,7 +3,7 @@
 import time
 import socket
 # import multiprocessing
-from service.recognize_vgg16 import predict
+from service.recognizer import predict
 
 
 def link_handler(link, client):

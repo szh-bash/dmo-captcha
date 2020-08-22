@@ -11,6 +11,7 @@ from torch.utils.data import DataLoader
 from loss import ArcMarginProduct as ArcFace
 
 from config import modelPath, widgets
+from utils.cut import trans
 
 
 # check = torch.load(modelPath)
@@ -35,11 +36,10 @@ data_loader = DataLoader(dataset=data, batch_size=batch_size, shuffle=False, pin
 
 # load model
 device = torch.device('cuda:0')
-model = resnet50().cuda()
-print(model)
+model = resnet50().to(device)
 model.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath)['net'].items()})
 model.eval()  # DropOut/BN
-arc = ArcFace(2048 * 7 * 7, data.type).cuda()
+arc = ArcFace(2048 * 7 * 7, data.type).to(device)
 arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath)['arc'].items()})
 # print('epoch: %d, iter: %d, loss: %.5f, train_acc: %.5f' %
 #       (checkpoint['epoch'], checkpoint['iter'], checkpoint['loss'], checkpoint['acc']))
@@ -53,9 +53,12 @@ for i, (inputs, labels) in enumerate(data_loader):
     save_feat(feat, labels, labels.size(0))
     pgb.update(i)
 pgb.finish()
-feats = np.array(feats)
 test_Y = np.array(test_Y)
-print(feats.shape)
-print(np.argmax(feats, axis=1))
-print(test_Y)
-print('Test Accuracy:', np.sum(np.argmax(feats, axis=1) == test_Y)/Total)
+feats = np.array(feats)
+pred = np.argmax(feats, axis=1)
+index = np.arange(0, data.sample)
+index = index[pred != test_Y]
+print('Model:', modelPath)
+print('Test Accuracy:', np.sum(pred == test_Y)/Total)
+print([chr(trans[pred[x]]).upper() for x in index])
+print([chr(trans[test_Y[x]]).upper() for x in index])

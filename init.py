@@ -68,15 +68,14 @@ class DataReader(Dataset):
             image = torch.from_numpy(image).float()
             return image, label
         elif self.st == 'test':
-            size = (MaxS+MinS) // 2
-            # size = W
+            size = (MinS+MaxS) // 2
             idx = (size-W) // 2
             img = self.dataset[index]
-            img = cv2.resize(img, (size, size))
-            img = img[idx:idx+H, idx:idx+W, :]
-            img = np.transpose(img, [2, 0, 1])
-            img = torch.from_numpy((img-127.5)/128).float()
-            return img, self.y[index]
+            image = cv2.resize(img, (size, size))
+            image = image[idx:idx+H, idx:idx+W, :]
+            image = np.transpose(image, [2, 0, 1])
+            image = torch.from_numpy((image-127.5)/128).float()
+            return image, self.y[index]
         else:
             exit(-1)
 

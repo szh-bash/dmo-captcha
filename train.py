@@ -56,7 +56,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam([{'params': net.parameters()},
                             {'params': arcFace.parameters()}],
                            lr=learning_rate, weight_decay=weight_decay)
-    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1500], gamma=0.1, last_epoch=-1)
+    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[3600, 4800], gamma=0.1, last_epoch=-1)
     print(net.parameters())
     print(arcFace.parameters())
     if os.path.exists(modelSavePath+'.tar'):
@@ -153,7 +153,7 @@ if __name__ == '__main__':
                  'acc': acc_bc}
         torch.save(state, modelSavePath+'.tar')
         print('Model saved to %s' % (modelSavePath+'.tar'))
-        if acc_bc > 99.9:
-            break
+        # if acc_bc > 99.99:
+        #     break
 
     print('fydnb!')

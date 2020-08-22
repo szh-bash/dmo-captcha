@@ -2,10 +2,11 @@ import os
 import cv2
 import numpy as np
 import progressbar as pb
-from config import captcha_origin_path, trainPath, test_origin_path, testPath, widgets, modelPath
+from config import train_origin_path, trainPath, test_origin_path, testPath, widgets, modelPath
 import re
 import torch
 from model.vggnet.vgg16 import Vgg16
+from model.resnet.resnet import resnet50
 from loss import ArcMarginProduct as ArcFace
 from utils.DataHandler import MinS, MaxS
 
@@ -25,7 +26,7 @@ print("Default Class:", classes)
 
 
 def build(filename):
-    img_path = os.path.join("%s/%s" % (captcha_origin_path, filename))
+    img_path = os.path.join("%s/%s" % (train_origin_path, filename))
     img = np.array(cv2.imread(img_path), dtype=float)
     for idx in range(6):
         label = filename[idx]
@@ -45,7 +46,7 @@ def cut():
     if not os.path.exists(trainPath):
         os.mkdir(trainPath)
     print(trainPath)
-    path_dir = os.listdir(captcha_origin_path)
+    path_dir = os.listdir(train_origin_path)
     pgb = pb.ProgressBar(widgets=widgets, maxval=687).start()
     for allDir in path_dir:
         build(allDir)

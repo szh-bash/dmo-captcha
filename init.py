@@ -59,7 +59,6 @@ class DataReader(Dataset):
         print('Label:', self.label.shape)
         print('Label_value:', self.label[345:350])
         self.y = torch.from_numpy(self.label).long()
-        print(self.y, self.y.type())
 
     def __getitem__(self, index):
         if self.st == 'train':

@@ -1,5 +1,4 @@
 import re
-import sys
 import cv2
 import time
 import torch
@@ -8,10 +7,8 @@ import torch.nn.functional as F
 from torch.nn import Parameter
 import numpy as np
 
-from model.vggnet.vgg16 import Vgg16
 from model.resnet.resnet import resnet50
-# modelPath = 'C:/DATA/vgg16_32_48.tar'
-modelPath = 'C:/DATA/resnet_18_36.tar'
+modelPath = 'C:/DATA/resnet_36_56_m30.tar'
 
 
 H = 64
@@ -45,7 +42,6 @@ class ArcMarginProduct(nn.Module):
 
 
 def predict(filepath):
-    # filePath = 'D:/DigimonMasters/Code_AI/test-origin/720857789003916874.jpg'
     res = ''
     img = np.array(cv2.imread(filepath), dtype=float)
 
@@ -63,7 +59,6 @@ def predict(filepath):
 
 
 timer = time.time()
-# net = Vgg16().cpu()
 net = resnet50().cpu()
 net.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['net'].items()})
 net.eval()
@@ -72,7 +67,8 @@ arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPat
 print('Load time:', time.time()-timer)
 
 if __name__ == '__main__':
-    path = 'D:/DigimonMasters/Code_AI/test-origin/720857789003916874.jpg'
+    path = 'D:/DigimonMasters/DATS v5.91/code.jpg'
+    # path = 'D:/DigimonMasters/Code_AI/test-origin/720857789003916874.jpg'
     # path = '/data/shenzhonghai/dmo-captcha/test-origin/720857789003916874.jpg'
     timer = time.time()
     print(predict(path))

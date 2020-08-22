@@ -5,7 +5,6 @@ import progressbar as pb
 
 sys.path.append("..")
 from init import DataReader
-from model.vggnet.vgg16 import Vgg16
 from model.resnet.resnet import resnet50
 from torch.utils.data import DataLoader
 from loss import ArcMarginProduct as ArcFace
@@ -14,9 +13,6 @@ from config import modelPath, widgets
 from utils.cut import trans
 
 
-# check = torch.load(modelPath)
-# print(check)
-# exit(0)
 feats = []
 test_Y = []
 
@@ -41,9 +37,6 @@ model.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelP
 model.eval()  # DropOut/BN
 arc = ArcFace(2048 * 7 * 7, data.type).to(device)
 arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath)['arc'].items()})
-# print('epoch: %d, iter: %d, loss: %.5f, train_acc: %.5f' %
-#       (checkpoint['epoch'], checkpoint['iter'], checkpoint['loss'], checkpoint['acc']))
-# get feat
 print('Calculating Feature Map...')
 ids = 0
 Total = (data.sample - 1) / batch_size + 1

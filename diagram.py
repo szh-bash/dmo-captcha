@@ -18,7 +18,7 @@ def smooth(seq):
 
 
 # log_path = '/data/shenzhonghai/dmo-captcha/logs/vgg16_32_48.log'
-log_path = '/data/shenzhonghai/dmo-captcha/logs/resnet_36_56_m30.log'
+log_path = '/data/shenzhonghai/dmo-captcha/logs/resnet_36_56_m30_clean2.log'
 acc = []
 loss = []
 with open(log_path, 'r') as f:
@@ -46,6 +46,6 @@ ax1.set_ylabel('loss')
 ax2.set_ylabel('train_acc')
 plt.xlabel('iterations')
 plt.title(log_path.split('/')[-1])
-fig.legend(bbox_to_anchor=(0.6, 1.), bbox_transform=ax1.transAxes)
+fig.legend(bbox_to_anchor=(1., 0.6), bbox_transform=ax1.transAxes)
 
 plt.show()

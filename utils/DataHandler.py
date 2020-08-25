@@ -5,12 +5,23 @@ import torchvision.transforms as trans
 from config import H, W
 
 
+_OH = 64 - 1
+_OW = 48 - 1
+_CH = 12
+_CW = 12
 MinS = 112
 MaxS = 128
 
 
 class Augment:
     rng = np.random
+
+    def cutout(self, img):
+        if self.rng.rand() < 0.5:
+            y = int(self.rng.rand() * _OH)
+            x = int(self.rng.rand() * _OW)
+            img[y:y+_CH, x:x+_CW, :] = 255.
+        return img
 
     def resize(self, img):
         new_size = self.rng.randint(MinS, MaxS+1)
@@ -37,6 +48,7 @@ class Augment:
         return img
 
     def run(self, img, label):
+        img = self.cutout(img)
         img = self.resize(img)
         # img = self.rotate(img)
         # img = self.flip(img)

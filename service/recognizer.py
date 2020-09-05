@@ -8,7 +8,7 @@ from torch.nn import Parameter
 import numpy as np
 
 from model.resnet.resnet import resnet50
-modelPath = 'C:/DATA/resnet_36_56_m30_clean4.tar'
+modelPath = 'C:/DATA/resnet_36_56_m30_co_clean6.tar'
 
 
 H = 64

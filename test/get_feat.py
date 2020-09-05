@@ -3,7 +3,7 @@ import torch
 import numpy as np
 import progressbar as pb
 
-sys.path.append("..")
+sys.path.append("/home/shenzhonghai/dmo-captcha")
 from init import DataReader
 from model.resnet.resnet import resnet50
 from torch.utils.data import DataLoader

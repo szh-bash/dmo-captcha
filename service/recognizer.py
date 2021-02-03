@@ -8,7 +8,7 @@ from torch.nn import Parameter
 import numpy as np
 
 from model.resnet.resnet import resnet50
-modelPath = 'C:/DATA/resnet_36_56_m30_co_clean6.tar'
+modelPath = 'C:/DATA/dmo/resnet_36_56_m30_co_clean6.tar'
 
 
 H = 64
@@ -65,9 +65,11 @@ net.eval()
 arc = ArcMarginProduct(2048*7*7, classes).cpu()
 arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['arc'].items()})
 print('Load time:', time.time()-timer)
+# net.cuda()
+# arc.cuda()
 
 if __name__ == '__main__':
-    path = 'D:/DigimonMasters/DATS v5.91/code.jpg'
+    path = 'D:/Game/DigimonMasters/DATS v5.91/code.jpg'
     # path = 'D:/DigimonMasters/Code_AI/test-origin/720857789003916874.jpg'
     # path = '/data/shenzhonghai/dmo-captcha/test-origin/720857789003916874.jpg'
     timer = time.time()

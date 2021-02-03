@@ -17,7 +17,6 @@ while True:
     if inp == 'exit':
         break
     server_reply = s.recv(1024).decode()
-    print(time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) +
-          '已收到超级护盾给予的神秘代码，成功抵御邪恶数码兽本次进攻： ', end='')
-    print(server_reply)
+    print(time.strftime("%Y-%m-%d %H:%M:%S ", time.localtime()) +
+          '已收到超级护盾给予的神秘代码，成功抵御邪恶数码兽本次进攻：%s (耗时 %.5fs)' % (server_reply, time.time()-timer))
 s.close()

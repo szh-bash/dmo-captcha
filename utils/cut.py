@@ -5,8 +5,7 @@ import progressbar as pb
 from config import train_origin_path, trainPath, test_origin_path, testPath, widgets, modelPath
 import re
 import torch
-from model.vggnet.vgg16 import Vgg16
-from model.resnet.resnet import resnet50
+from model.vgg16 import Vgg16
 from loss import ArcMarginProduct as ArcFace
 from utils.DataHandler import MinS, MaxS
 

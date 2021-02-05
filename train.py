@@ -6,8 +6,8 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import DataLoader
 
-from model.vggnet.vgg16 import Vgg16
-from model.resnet.resnet import resnet50
+from model.resnet import resnet50
+from model.effnet import EffNet
 from loss import ArcMarginProduct as ArcFace
 
 from config import learning_rate, batch_size, weight_decay, Total, modelSavePath
@@ -43,7 +43,8 @@ if __name__ == '__main__':
 
     # Some Args setting
     # net = Vgg16()
-    net = resnet50()
+    # net = resnet50()
+    net = EffNet()
     device = torch.device("cuda:0")
     if torch.cuda.device_count() > 1:
         devices_ids = [i for i in range(torch.cuda.device_count())]
@@ -51,12 +52,13 @@ if __name__ == '__main__':
         print("Let's use %d/%d GPUs!" % (len(devices_ids), torch.cuda.device_count()))
     net.to(device)
     data_loader = DataLoader(dataset=data, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True)
-    arcFace = ArcFace(2048 * 7 * 7, data.type).to(device)
+    # arcFace = ArcFace(2048 * 7 * 7, data.type).to(device)
+    arcFace = ArcFace(50176, data.type).to(device)
     criterion = nn.CrossEntropyLoss().to(device)
     optimizer = optim.Adam([{'params': net.parameters()},
                             {'params': arcFace.parameters()}],
                            lr=learning_rate, weight_decay=weight_decay)
-    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[3600, 5600], gamma=0.1, last_epoch=-1)
+    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1200, 1800], gamma=0.1, last_epoch=-1)
     print(net.parameters())
     print(arcFace.parameters())
     if os.path.exists(modelSavePath+'.tar'):

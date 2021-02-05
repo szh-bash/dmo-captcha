@@ -7,8 +7,10 @@ import torch.nn.functional as F
 from torch.nn import Parameter
 import numpy as np
 
-from model.resnet.resnet import resnet50
-modelPath = 'C:/DATA/dmo/resnet_36_56_m30_co_clean6.tar'
+from model.resnet import resnet50
+from model.effnet import EffNet
+# modelPath = 'C:/DATA/dmo/resnet_36_56_m30_co_clean6.tar'
+modelPath = 'C:/DATA/dmo/effnet_base.tar'
 
 
 H = 64
@@ -59,10 +61,12 @@ def predict(filepath):
 
 
 timer = time.time()
-net = resnet50().cpu()
+# net = resnet50().cpu()
+net = EffNet()
 net.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['net'].items()})
 net.eval()
-arc = ArcMarginProduct(2048*7*7, classes).cpu()
+# arc = ArcMarginProduct(2048*7*7, classes).cpu()
+arc = ArcMarginProduct(50176, classes).cpu()
 arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['arc'].items()})
 print('Load time:', time.time()-timer)
 # net.cuda()

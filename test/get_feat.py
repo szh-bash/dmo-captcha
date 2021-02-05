@@ -5,7 +5,8 @@ import progressbar as pb
 
 sys.path.append("/home/shenzhonghai/dmo-captcha")
 from init import DataReader
-from model.resnet.resnet import resnet50
+from model.resnet import resnet50
+from model.effnet import EffNet
 from torch.utils.data import DataLoader
 from loss import ArcMarginProduct as ArcFace
 
@@ -32,10 +33,12 @@ data_loader = DataLoader(dataset=data, batch_size=batch_size, shuffle=False, pin
 
 # load model
 device = torch.device('cuda:0')
-model = resnet50().to(device)
+# model = resnet50().to(device)
+model = EffNet().to(device)
 model.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath)['net'].items()})
 model.eval()  # DropOut/BN
-arc = ArcFace(2048 * 7 * 7, data.type).to(device)
+# arc = ArcFace(2048 * 7 * 7, data.type).to(device)
+arc = ArcFace(50176, data.type).to(device)
 arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath)['arc'].items()})
 print('Calculating Feature Map...')
 ids = 0

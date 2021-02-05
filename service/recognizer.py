@@ -10,7 +10,8 @@ import numpy as np
 from model.resnet import resnet50
 from model.effnet import EffNet
 # modelPath = 'C:/DATA/dmo/resnet_36_56_m30_co_clean6.tar'
-modelPath = 'C:/DATA/dmo/effnet_base.tar'
+# modelPath = 'C:/DATA/dmo/effnet_base.tar'
+modelPath = 'C:/DATA/dmo/effnet_s32_m10.tar'
 
 
 H = 64

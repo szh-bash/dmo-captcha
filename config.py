@@ -10,7 +10,7 @@ test_origin_path = '/data/shenzhonghai/dmo-captcha/test-origin'
 testPath = '/data/shenzhonghai/dmo-captcha/dmo-captcha-part0'
 test_size = 4122
 
-modelName = 'effnet_base'
+modelName = 'effnet_s32_m10'
 modelSavePath = '/data/shenzhonghai/dmo-captcha/models/'+modelName
 modelPath = '/data/shenzhonghai/dmo-captcha/models/'+modelName+'.tar'
 

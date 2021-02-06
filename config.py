@@ -10,7 +10,7 @@ test_origin_path = '/data/shenzhonghai/dmo-captcha/test-origin'
 testPath = '/data/shenzhonghai/dmo-captcha/dmo-captcha-part0'
 test_size = 4122
 
-modelName = 'effnet_s32_m10'
+modelName = 'effnet_s32_m10_nco_rot_trs_crop_FULL_borWhite'
 modelSavePath = '/data/shenzhonghai/dmo-captcha/models/'+modelName
 modelPath = '/data/shenzhonghai/dmo-captcha/models/'+modelName+'.tar'
 
@@ -18,9 +18,10 @@ H = 112
 W = 112
 
 # train
-Total = 65
+Total = 130
 batch_size = 256
 learning_rate = 0.001
+milestones = [3000, 3600]
 weight_decay = 0.00000
 dp = 0.00
 

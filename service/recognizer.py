@@ -1,3 +1,5 @@
+# careful about minS & maxS
+
 import re
 import cv2
 import time
@@ -7,18 +9,14 @@ import torch.nn.functional as F
 from torch.nn import Parameter
 import numpy as np
 
-from model.resnet import resnet50
 from model.effnet import EffNet
-# modelPath = 'C:/DATA/dmo/resnet_36_56_m30_co_clean6.tar'
-# modelPath = 'C:/DATA/dmo/effnet_base.tar'
-# modelPath = 'C:/DATA/dmo/effnet_s32_m10.tar'
-modelPath = '/data/shenzhonghai/dmo-captcha/models/effnet_s32_m10.tar'
+from cfg import modelPath
 
 
 H = 64
 W = 42
 MinS = 112
-MaxS = 128
+MaxS = 116
 size = (MinS+MaxS) // 2
 st = (size - MinS) // 2
 index = [14, 54, 94, 124, 164, 204]
@@ -51,6 +49,7 @@ def predict(filepath):
 
     for idx in range(6):
         image = img[:, index[idx]:index[idx] + W, :]
+        image = cv2.copyMakeBorder(image, 0, 0, 11, 11, cv2.BORDER_CONSTANT, value=[255, 255, 255])
         image = cv2.resize(image, (size, size))
         image = image[st:st+MinS, st:st+MinS, :]
         image = (np.transpose(image, [2, 0, 1])-127.5)/128
@@ -63,11 +62,9 @@ def predict(filepath):
 
 
 timer = time.time()
-# net = resnet50().cpu()
 net = EffNet()
 net.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['net'].items()})
 net.eval()
-# arc = ArcMarginProduct(2048*7*7, classes).cpu()
 arc = ArcMarginProduct(50176, classes).cpu()
 arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['arc'].items()})
 print('Load time:', time.time()-timer)

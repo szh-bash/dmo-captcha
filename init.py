@@ -70,6 +70,7 @@ class DataReader(Dataset):
             size = (MinS+MaxS) // 2
             idx = (size-W) // 2
             img = self.dataset[index]
+            img = cv2.copyMakeBorder(img, 0, 0, 11, 11, cv2.BORDER_CONSTANT, value=[255, 255, 255])
             image = cv2.resize(img, (size, size))
             image = image[idx:idx+H, idx:idx+W, :]
             image = np.transpose(image, [2, 0, 1])

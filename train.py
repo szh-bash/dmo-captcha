@@ -10,7 +10,7 @@ from model.resnet import resnet50
 from model.effnet import EffNet
 from loss import ArcMarginProduct as ArcFace
 
-from config import learning_rate, batch_size, weight_decay, Total, modelSavePath
+from config import learning_rate, batch_size, weight_decay, Total, modelSavePath, milestones
 from init import DataReader
 
 
@@ -58,7 +58,7 @@ if __name__ == '__main__':
     optimizer = optim.Adam([{'params': net.parameters()},
                             {'params': arcFace.parameters()}],
                            lr=learning_rate, weight_decay=weight_decay)
-    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=[1200, 1800], gamma=0.1, last_epoch=-1)
+    scheduler = optim.lr_scheduler.MultiStepLR(optimizer, milestones=milestones, gamma=0.1, last_epoch=-1)
     print(net.parameters())
     print(arcFace.parameters())
     if os.path.exists(modelSavePath+'.tar'):
@@ -125,10 +125,10 @@ if __name__ == '__main__':
             #     print('Abs Max Gradient of net_output:',
             #           get_max_gradient(grads['feat_grad'].gather(1, train_y.view(-1, 1))))
 
-            if iterations % 1000 == 0:
-                torch.save({'net': net.state_dict(), 'arc': arcFace.state_dict()},
-                           modelSavePath+'_'+str(iterations)+'.pt')
-                print('Model saved to '+modelSavePath+'_'+str(iterations)+'.pt')
+            # if iterations % 1000 == 0:
+            #     torch.save({'net': net.state_dict(), 'arc': arcFace.state_dict()},
+            #                modelSavePath+'_'+str(iterations)+'.pt')
+            #     print('Model saved to '+modelSavePath+'_'+str(iterations)+'.pt')
             # if iterations % 1 == 0:
             pred = get_label(feat)
             acc = (pred == train_y).sum().float() / train_y.size(0) * 100

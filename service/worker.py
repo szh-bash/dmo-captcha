@@ -1,10 +1,8 @@
 import os
 import time
 from recognizer import predict
+from cfg import path
 
-# path = 'D:/Game/DigimonMasters/Code_AI/IShiled/question/'
-path = '/data/shenzhonghai/dmo-captcha/pic/'
-# path = 'C:/pic/'
 if __name__ == '__main__':
     while True:
         dir = os.listdir(path)

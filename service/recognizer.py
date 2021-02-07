@@ -16,7 +16,7 @@ from cfg import modelPath
 H = 64
 W = 42
 MinS = 112
-MaxS = 116
+MaxS = 128
 size = (MinS+MaxS) // 2
 st = (size - MinS) // 2
 index = [14, 54, 94, 124, 164, 204]

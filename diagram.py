@@ -20,6 +20,7 @@ def smooth(seq):
 # log_path = '/data/shenzhonghai/dmo-captcha/logs/vgg16_32_48.log'
 log_path = '/data/shenzhonghai/dmo-captcha/logs/resnet_36_56_m30_co_clean6.log'
 log_path = '/data/shenzhonghai/dmo-captcha/logs/effnet_s32_m10_nco_rot_trs_crop_FULL_borWhite.log'
+log_path = '/data/shenzhonghai/dmo-captcha/logs/effnet_lr4045_s32_m10_co_rot_trs_crop_FULL_borWhite_rsz128.log'
 acc = []
 loss = []
 with open(log_path, 'r') as f:

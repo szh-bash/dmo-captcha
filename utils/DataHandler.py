@@ -7,10 +7,10 @@ from config import H, W
 
 _OH = 64
 _OW = 64
-_CH = 12
-_CW = 12
+_CH = 16
+_CW = 16
 MinS = 112
-MaxS = 116
+MaxS = 128
 
 
 class Augment:
@@ -18,7 +18,7 @@ class Augment:
 
     def cutout(self, img):
         img = img.copy()
-        if self.rng.rand() < 0.5:
+        if self.rng.rand() < 0.3:
             y = int(self.rng.rand() * _OH)
             x = int(self.rng.rand() * _OW)
             img[y:y+_CH, x:x+_CW, :] = 0
@@ -35,8 +35,8 @@ class Augment:
     def trans(self, img):
         img = img.copy()
         if self.rng.rand() < 0.3:
-            dh = (self.rng.rand()*_OH - _OH/2)*0.3
-            dw = (self.rng.rand()*_OW - _OW/2)*0.1
+            dh = (self.rng.rand()*_OH - _OH/2)*0.4
+            dw = (self.rng.rand()*_OW - _OW/2)*0.2
             mat = np.float32([[1, 0, dh], [0, 1, dw]])
             img = cv2.warpAffine(img, mat, (_OH, _OW), borderValue=[255, 255, 255])
         return img
@@ -44,7 +44,6 @@ class Augment:
     def resize(self, img):
         img = img.copy()
         new_size = self.rng.randint(MinS, MaxS+1)
-        # new_size = 256
         new_size = (new_size, new_size)
         img = cv2.resize(img, new_size)
         return img
@@ -65,7 +64,7 @@ class Augment:
 
     def run(self, img, label):
         img = cv2.copyMakeBorder(img, 0, 0, 11, 11, cv2.BORDER_CONSTANT, value=[255, 255, 255])
-        # img = self.cutout(img)
+        img = self.cutout(img)
         img = self.rotate(img)
         img = self.trans(img)
         img = self.resize(img)

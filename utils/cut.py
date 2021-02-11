@@ -2,6 +2,8 @@ import os
 import cv2
 import numpy as np
 import progressbar as pb
+import sys
+sys.path.append('/home/shenzhonghai/dmo-captcha/')
 from config import train_origin_path, trainPath, test_origin_path, testPath, widgets, modelPath
 import re
 import torch
@@ -24,31 +26,31 @@ for i in range(132):
 print("Default Class:", classes)
 
 
-def build(filename):
-    img_path = os.path.join("%s/%s" % (train_origin_path, filename))
+def build(origin, target, filename):
+    img_path = os.path.join("%s/%s" % (origin, filename))
     img = np.array(cv2.imread(img_path), dtype=float)
     for idx in range(6):
         label = filename[idx]
         if label.isupper():
             label = label.lower()
         img_single = img[:, index[idx]:index[idx] + W, :]
-        dir_path = os.path.join("%s/%s" % (trainPath, label))
+        dir_path = os.path.join("%s/%s" % (target, label))
         if not os.path.exists(dir_path):
             os.mkdir(dir_path)
         cv2.imwrite(os.path.join("%s/%d.jpg" % (dir_path, cnt[num[ord(label)]])), img_single)
         cnt[num[ord(label)]] += 1
 
 
-def cut():
+def cut(origin, target):
     res = 0
     count = 0
-    if not os.path.exists(trainPath):
-        os.mkdir(trainPath)
-    print(trainPath)
-    path_dir = os.listdir(train_origin_path)
-    pgb = pb.ProgressBar(widgets=widgets, maxval=687).start()
+    if not os.path.exists(target):
+        os.mkdir(target)
+    print(target)
+    path_dir = os.listdir(origin)
+    pgb = pb.ProgressBar(widgets=widgets, maxval=1200).start()
     for allDir in path_dir:
-        build(allDir)
+        build(origin, target, allDir)
         res += 6
         count += 1
         pgb.update(count)
@@ -109,4 +111,5 @@ def label_image():
 
 
 if __name__ == '__main__':
-    label_image()
+    cut(train_origin_path, trainPath)
+    cut(test_origin_path, testPath)

@@ -1,1 +1,1 @@
-CUDA_VISIBLE_DEVICES="5,6,7,8" python -u train.py | tee /data/shenzhonghai/dmo-captcha/logs/effnet_lr4045_s32_m10_co_rot_trs_crop_FULL_borWhite_rsz128.log
+CUDA_VISIBLE_DEVICES="3,4,6,7" python -u train.py | tee /data/shenzhonghai/dmo-captcha/logs/effnet_lr4045_s32_m30_co_rot_trs_crop_FULL_borWhite_sz64.log

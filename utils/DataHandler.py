@@ -9,8 +9,8 @@ _OH = 64
 _OW = 64
 _CH = 16
 _CW = 16
-MinS = 112
-MaxS = 128
+MinS = 64
+MaxS = 64
 
 
 class Augment:
@@ -67,8 +67,8 @@ class Augment:
         img = self.cutout(img)
         img = self.rotate(img)
         img = self.trans(img)
-        img = self.resize(img)
-        img = self.crop(img)
+        # img = self.resize(img)
+        # img = self.crop(img)
         img = np.transpose(img, [2, 0, 1])
         img = (img - 127.5) / 128.0
         return img, label

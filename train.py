@@ -53,7 +53,8 @@ if __name__ == '__main__':
     net.to(device)
     data_loader = DataLoader(dataset=data, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True)
     # arcFace = ArcFace(2048 * 7 * 7, data.type).to(device)
-    arcFace = ArcFace(50176, data.type).to(device)
+    # arcFace = ArcFace(50176, data.type).to(device)
+    arcFace = ArcFace(16384, data.type).to(device)
     criterion = nn.CrossEntropyLoss().to(device)
     optimizer = optim.Adam([{'params': net.parameters()},
                             {'params': arcFace.parameters()}],

@@ -35,7 +35,8 @@ device = torch.device('cuda:0')
 model = EffNet().to(device)
 model.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath)['net'].items()})
 model.eval()  # DropOut/BN
-arc = ArcFace(50176, data.type).to(device)
+# arc = ArcFace(50176, data.type).to(device)
+arc = ArcFace(16384, data.type).to(device)
 arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath)['arc'].items()})
 print('Calculating Feature Map...')
 ids = 0
@@ -52,6 +53,6 @@ pred = np.argmax(feats, axis=1)
 index = np.arange(0, data.sample)
 index = index[pred != test_Y]
 print('Model:', modelPath)
-print('Test Accuracy:', np.sum(pred == test_Y)/Total)
+print('Test Accuracy: %.5f%%' % (np.sum(pred == test_Y)/Total*100))
 print('Wrong Sample:', [chr(trans[pred[x]]).upper() for x in index])
 print('Ground Truth:', [chr(trans[test_Y[x]]).upper() for x in index])

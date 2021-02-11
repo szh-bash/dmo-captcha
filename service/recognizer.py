@@ -15,8 +15,8 @@ from cfg import modelPath
 
 H = 64
 W = 42
-MinS = 112
-MaxS = 128
+MinS = 64
+MaxS = 64
 size = (MinS+MaxS) // 2
 st = (size - MinS) // 2
 index = [14, 54, 94, 124, 164, 204]
@@ -65,7 +65,8 @@ timer = time.time()
 net = EffNet()
 net.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['net'].items()})
 net.eval()
-arc = ArcMarginProduct(50176, classes).cpu()
+# arc = ArcMarginProduct(50176, classes).cpu()
+arc = ArcMarginProduct(16384, classes).cpu()
 arc.load_state_dict({k.replace('module.', ''): v for k, v in torch.load(modelPath, map_location='cpu')['arc'].items()})
 print('Load time:', time.time()-timer)
 # net.cuda()
